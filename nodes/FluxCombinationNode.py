@@ -35,7 +35,7 @@ class FluxCombinationNode:
             "optional": {
                 "type": (
                     ["sdxl", "sd3", "flux", "hunyuan_video", "hidream"],
-                    {"advanced": True},
+                    {"advanced": True, "default": "flux"},
                 ),
                 "device": (["default", "cpu"], {"advanced": True}),
             },
@@ -89,9 +89,17 @@ class FluxCombinationNode:
         )
         return (clip,)
 
-    def start(self, unet_name, weight_dtype, clip_name1, clip_name2):
+    def start(
+        self,
+        unet_name,
+        weight_dtype,
+        clip_name1,
+        clip_name2,
+        type="flux",
+        device="default",
+    ):
         model = self.load_unet(unet_name, weight_dtype)
-        clip = self.load_clip(clip_name1, clip_name2)
+        clip = self.load_clip(clip_name1, clip_name2, type, device)
         return (
             model,
             clip,
